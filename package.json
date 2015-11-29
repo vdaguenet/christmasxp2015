@@ -4,9 +4,12 @@
   "description": "Christmas Experiment 2k15",
   "main": "app/index.js",
   "scripts": {
-    "start": "npm run dev",
-    "dev": "budo app/index.js:build/main.js --live --open -- -t babelify -g glslify",
-    "build": "browserify -t babelify -t stripify -g glslify app/index.js | uglifyjs -o build/main.js"
+    "start": "npm run js:dev & npm run css:dev",
+    "build": "npm run js:prod && npm run css:prod",
+    "js:dev": "budo app/index.js:build/main.js --live --open -- -t babelify -g glslify",
+    "css:dev": "stylus -u autoprefixer-stylus -u ./node_modules/stylus-font-face --with {limit:80000} -w style/main.styl -o build --sourcemap",
+    "js:prod": "browserify -t babelify -t stripify -g glslify app/index.js | uglifyjs -o build/main.js",
+    "css:prod": "stylus -u autoprefixer-stylus -u ./node_modules/stylus-font-face --with {limit:80000} style/main.styl -o build --compress"
   },
   "repository": {
     "type": "git",
@@ -16,12 +19,18 @@
   "license": "MIT",
   "dependencies": {
     "@superguigui/wagner": "0.0.6",
+    "autoprefixer-stylus": "^0.8.1",
     "brindille-preloader": "^1.0.3",
+    "brindille-stylus-extends": "0.0.2",
     "component-emitter": "^1.2.0",
     "dat-gui": "*",
     "gsap": "*",
     "lodash.bindall": "^3.1.0",
     "raf": "*",
+    "stylus": "^0.52.4",
+    "stylus-font-face": "^1.1.0",
+    "stylus-media-queries": "^1.0.0",
+    "stylus-reset": "0.0.1",
     "three": "*"
   },
   "devDependencies": {

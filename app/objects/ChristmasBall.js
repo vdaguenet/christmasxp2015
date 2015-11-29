@@ -183,8 +183,8 @@ export default class ChristmasBall extends THREE.Object3D {
         dyVerso = versoTop + circleRadius - 0.5 * h;
         break;
       case 'bottom':
-        dyRecto = rectoTop + 0.85 * circleDiameter - 0.5 * h;
-        dyVerso = versoTop + 0.85 * circleDiameter - 0.5 * h;
+        dyRecto = rectoTop + 0.8 * circleDiameter - 0.5 * h;
+        dyVerso = versoTop + 0.8 * circleDiameter - 0.5 * h;
         break;
     }
 

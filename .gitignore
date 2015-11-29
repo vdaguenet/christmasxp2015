@@ -1,4 +1,6 @@
 .DS_Store
-public/build/main.js
+build/*.js
+build/*.css
+build/*.map
 node_modules
 *.log

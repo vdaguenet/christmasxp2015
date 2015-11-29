@@ -1,0 +1,56 @@
+/*======================================================================
+    MIXINS & EXTENDS
+======================================================================*/
+@import '../node_modules/stylus-reset'
+@import '../node_modules/stylus-media-queries'
+@import '../node_modules/brindille-stylus-extends'
+
+/*======================================================================
+    BASE
+======================================================================*/
+reset()
+// @import 'config/*'
+
+html,
+body
+  @extends .full-size
+
+body
+  position relative
+  margin 0
+  color black
+  overflow hidden
+
+#symbols
+  display none
+
+.hidden
+  visibility hidden
+
+a
+  text-decoration none
+
+/*======================================================================
+    COMPONENTS
+======================================================================*/
+.content
+  position absolute
+  top 0
+  right 0
+  height 100%
+  width 40%
+  background white
+
+.color-picker
+  li
+    display inline-block
+    width 25px
+    height 25px
+    background blue
+
+.pattern-picker
+  li
+    display inline-block
+    width 35px
+    height 35px
+    background yellow

@@ -8,6 +8,8 @@ import 'gsap';
 let webgl;
 let gui;
 
+const debug = true;
+
 Mediator.once('preload:complete', main);
 
 PreloaderInterface.load([
@@ -27,12 +29,40 @@ PreloaderInterface.loadTextures([
 function main() {
   webgl = new Webgl(window.innerWidth, window.innerHeight);
   document.body.appendChild(webgl.renderer.domElement);
-  //
-  initGUI();
+  // events
+  bindEvents();
+  // gui
+  if (debug) initGUI();
   // handle resize
   window.addEventListener('resize', resizeHandler);
   // let's play !
   animate();
+}
+
+function bindEvents() {
+  document.querySelector('#bulbColor').addEventListener('click', function(e) {
+    if (!e.target.hasAttribute('data-color')) return;
+    webgl.ball.changeColor(e.target.getAttribute('data-color'));
+  });
+  document.querySelector('#patternColor').addEventListener('click', function(e) {
+    if (!e.target.hasAttribute('data-color')) return;
+    webgl.ball.changePatternColor(e.target.getAttribute('data-color'));
+  });
+  document.querySelector('#topPattern').addEventListener('click', function(e) {
+    if (!e.target.hasAttribute('data-pattern')) return;
+    webgl.ball.changePatternTop(e.target.getAttribute('data-pattern'));
+  });
+  document.querySelector('#centerPattern').addEventListener('click', function(e) {
+    if (!e.target.hasAttribute('data-pattern')) return;
+    webgl.ball.changePatternCenter(e.target.getAttribute('data-pattern'));
+  });
+  document.querySelector('#bottomPattern').addEventListener('click', function(e) {
+    if (!e.target.hasAttribute('data-pattern')) return;
+    webgl.ball.changePatternBottom(e.target.getAttribute('data-pattern'));
+  });
+  document.querySelector('#export').addEventListener('click', function() {
+    webgl.ball.exportToImage();
+  });
 }
 
 function initGUI () {
@@ -64,6 +94,7 @@ function initGUI () {
   gPost.add(webgl.params, 'usePostprocessing');
   gPost.add(webgl.params, 'useVignette');
   gPost.add(webgl.params, 'useFxaa');
+  gui.close();
 }
 
 function resizeHandler() {
