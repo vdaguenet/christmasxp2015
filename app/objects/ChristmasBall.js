@@ -12,7 +12,10 @@ export default class ChristmasBall extends THREE.Object3D {
 
     this.texture = null;
     this.textureCtx = null;
+
     this.canvasPattern = null;
+    this.mainCanvas = document.createElement('canvas');
+
     this.patternCtx = null;
     this.textureWidth = this.textureHeight = 2048;
     this.initCanvas();
@@ -95,17 +98,16 @@ export default class ChristmasBall extends THREE.Object3D {
   }
 
   initCanvas() {
-    const canvasTexture = document.createElement('canvas');
-    canvasTexture.width = this.textureWidth;
-    canvasTexture.height = this.textureHeight;
-    this.textureCtx = canvasTexture.getContext('2d');
+    this.mainCanvas.width = this.textureWidth;
+    this.mainCanvas.height = this.textureHeight;
+    this.textureCtx = this.mainCanvas.getContext('2d');
 
-    this.canvasPattern = canvasTexture.cloneNode();
+    this.canvasPattern = this.mainCanvas.cloneNode();
     this.patternCtx = this.canvasPattern.getContext('2d');
 
     this.drawTexture();
 
-    this.texture = new THREE.Texture(canvasTexture);
+    this.texture = new THREE.Texture(this.mainCanvas);
   }
 
   changeColor(value) {
@@ -118,5 +120,9 @@ export default class ChristmasBall extends THREE.Object3D {
     this.patternColor = value;
     this.drawTexture();
     this.texture.needsUpdate = true;
+  }
+
+  exportToImage() {
+    window.location = this.mainCanvas.toDataURL("image/png");
   }
 }

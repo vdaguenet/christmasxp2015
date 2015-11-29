@@ -11,12 +11,12 @@ let gui;
 Mediator.once('preload:complete', main);
 
 PreloaderInterface.load([
-  { id: 'gift', src: 'assets/patterns/gift.svg' },
-  { id: 'holy', src: 'assets/patterns/holy.svg' },
-  { id: 'knot', src: 'assets/patterns/knot.svg' },
-  { id: 'pin', src: 'assets/patterns/pin.svg' },
-  { id: 'star', src: 'assets/patterns/star.svg' },
-  { id: 'star-2', src: 'assets/patterns/star-2.svg' }
+  { id: 'gift', src: 'assets/patterns/gift.png' },
+  { id: 'holy', src: 'assets/patterns/holy.png' },
+  { id: 'knot', src: 'assets/patterns/knot.png' },
+  { id: 'pin', src: 'assets/patterns/pin.png' },
+  { id: 'star', src: 'assets/patterns/star.png' },
+  { id: 'star-2', src: 'assets/patterns/star-2.png' }
 ]);
 
 PreloaderInterface.loadTextures([
@@ -46,6 +46,7 @@ function initGUI () {
   gui.addColor(webgl.ball, 'patternColor').onChange(function(value) {
     webgl.ball.changePatternColor(value);
   });
+  gui.add(webgl.ball, 'exportToImage');
 }
 
 function resizeHandler() {
