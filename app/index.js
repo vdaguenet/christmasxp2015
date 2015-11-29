@@ -16,7 +16,8 @@ PreloaderInterface.load([
   { id: 'knot', src: 'assets/patterns/knot.png' },
   { id: 'pin', src: 'assets/patterns/pin.png' },
   { id: 'star', src: 'assets/patterns/star.png' },
-  { id: 'star-2', src: 'assets/patterns/star-2.png' }
+  { id: 'star-2', src: 'assets/patterns/star-2.png' },
+  { id: 'template', src: 'assets/print-template.png' }
 ]);
 
 PreloaderInterface.loadTextures([

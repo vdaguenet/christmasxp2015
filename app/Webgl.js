@@ -4,7 +4,6 @@ import WAGNER from '@superguigui/wagner';
 import VignettePass from '@superguigui/wagner/src/passes/vignette/VignettePass';
 import FXAAPass from '@superguigui/wagner/src/passes/fxaa/FXAAPass';
 import ChristmasBall from './objects/ChristmasBall';
-import Sky from './objects/Sky';
 
 export default class Webgl {
   constructor(width, height) {
@@ -38,7 +37,6 @@ export default class Webgl {
     this.controls = new THREE.ObjectTrackballControls(this.ball, this.camera, this.renderer.domElement);
     this.controls.noZoom = true;
     this.controls.dynamicObjectDampingFactor = 0.2;
-
   }
 
   initLights() {
@@ -51,7 +49,6 @@ export default class Webgl {
     lights[0].castShadow = true;
 
     this.scene.add(lights[0]);
-
   }
 
   initPostprocessing() {
@@ -85,6 +82,5 @@ export default class Webgl {
     }
 
     this.controls.update();
-    this.ball.update();
   }
 }

@@ -8,7 +8,9 @@ export default class ChristmasBall extends THREE.Object3D {
     this.color = '#7800ff';
     this.patternColor = '#e1ff00';
 
-    //
+    this.patternTop = 'star-2';
+    this.patternCenter = 'pin';
+    this.patternBottom = 'star';
 
     this.texture = null;
     this.textureCtx = null;
@@ -54,10 +56,6 @@ export default class ChristmasBall extends THREE.Object3D {
     this.add(this.ball);
   }
 
-  update() {
-    // this.rotation.y += 0.005;
-  }
-
   drawPattern(id, position = 'top', width = 1.0) {
     const img = PreloaderInterface.findImage(id);
     const ratio = img.height / img.width;
@@ -77,13 +75,7 @@ export default class ChristmasBall extends THREE.Object3D {
         break;
     }
 
-    this.patternCtx.save();
-    this.patternCtx.fillStyle = this.patternColor;
-    this.patternCtx.fillRect(dx, dy, imgW, imgH);
-    this.patternCtx.globalCompositeOperation = 'destination-atop';
-    this.patternCtx.drawImage(img, dx, dy, imgW, imgH);
-    this.patternCtx.restore();
-
+    this.patternCtx.drawImage(this.colorizeImage(img), dx, dy, imgW, imgH);
     this.textureCtx.drawImage(this.canvasPattern, 0, 0, this.textureWidth, this.textureHeight);
   }
 
@@ -91,9 +83,9 @@ export default class ChristmasBall extends THREE.Object3D {
     this.textureCtx.save();
     this.textureCtx.fillStyle = this.color;
     this.textureCtx.fillRect(0, 0, this.textureWidth, this.textureHeight);
-    this.drawPattern('pin', 'top');
-    this.drawPattern('star-2', 'center');
-    this.drawPattern('star', 'bottom');
+    this.drawPattern(this.patternTop, 'top');
+    this.drawPattern(this.patternCenter, 'center');
+    this.drawPattern(this.patternBottom, 'bottom');
     this.textureCtx.restore();
   }
 
@@ -122,7 +114,83 @@ export default class ChristmasBall extends THREE.Object3D {
     this.texture.needsUpdate = true;
   }
 
+  colorizeImage(img) {
+    const canvas = document.createElement('canvas');
+    canvas.width = img.width;
+    canvas.height = img.height;
+    const ctx = canvas.getContext('2d');
+    ctx.fillStyle = this.patternColor;
+    ctx.globalCompositeOperation = 'destination-atop';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(img, 0, 0);
+
+    return canvas;
+  }
+
+  drawPattern2d(ctx, img, position = 'top') {
+    const rectoTop = 167;
+    const rectoLeft = 58;
+    const circleDiameter = 585;
+    const circleRadius = 0.5 * circleDiameter;
+    const versoTop = 975;
+    const versoLeft = rectoLeft;
+
+    const imgColorized = this.colorizeImage(img);
+    const ratio = img.height / img.width;
+    const w = circleDiameter * 2;
+    const h = ratio * w;
+    const dxRecto = rectoLeft + circleRadius - 0.5 * w;
+    const dxVerso = versoLeft + circleRadius - 0.5 * w;
+
+    let dyRecto, dyVerso;
+
+    switch(position) {
+      case 'top':
+        dyRecto = rectoTop + 0.15 * circleDiameter - 0.5 * h;
+        dyVerso = versoTop + 0.15 * circleDiameter - 0.5 * h;
+        break;
+      case 'center':
+        dyRecto = rectoTop + circleRadius - 0.5 * h;
+        dyVerso = versoTop + circleRadius - 0.5 * h;
+        break;
+      case 'bottom':
+        dyRecto = rectoTop + 0.85 * circleDiameter - 0.5 * h;
+        dyVerso = versoTop + 0.85 * circleDiameter - 0.5 * h;
+        break;
+    }
+
+    ctx.drawImage(imgColorized, dxRecto, dyRecto, w, h);
+    ctx.drawImage(imgColorized, dxVerso - circleDiameter, dyVerso, w, h);
+    ctx.drawImage(imgColorized, dxVerso + circleDiameter, dyVerso, w, h);
+  }
+
+  canvasForExport(canvas) {
+    const ctx = canvas.getContext('2d');
+
+    ctx.save();
+    ctx.fillStyle = this.color;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.restore();
+
+    this.drawPattern2d(ctx, PreloaderInterface.findImage(this.patternTop), 'top');
+    this.drawPattern2d(ctx, PreloaderInterface.findImage(this.patternCenter), 'center');
+    this.drawPattern2d(ctx, PreloaderInterface.findImage(this.patternBottom), 'bottom');
+
+    return canvas;
+  }
+
   exportToImage() {
-    window.location = this.mainCanvas.toDataURL("image/png");
+    const template = PreloaderInterface.findImage('template');
+    const canvas = document.createElement('canvas');
+    canvas.width = template.width;
+    canvas.height = template.height;
+    const ctx = canvas.getContext('2d');
+    const canvasExported = this.canvasForExport(canvas.cloneNode());
+
+    ctx.globalCompositeOperation = 'destination-atop';
+    ctx.drawImage(template, 0, 0);
+    ctx.drawImage(canvasExported, 0, 0);
+
+    window.open(canvas.toDataURL('image/png'), 'Your Christmas tree bulb');
   }
 }
