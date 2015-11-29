@@ -15,8 +15,12 @@
   "author": "Valentin Daguenet <valentin.daguenet@gmail.com> (http://vdaguenet.fr)",
   "license": "MIT",
   "dependencies": {
+    "@superguigui/wagner": "0.0.6",
+    "brindille-preloader": "^1.0.3",
+    "component-emitter": "^1.2.0",
     "dat-gui": "*",
     "gsap": "*",
+    "lodash.bindall": "^3.1.0",
     "raf": "*",
     "three": "*"
   },

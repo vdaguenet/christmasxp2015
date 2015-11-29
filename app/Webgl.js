@@ -1,11 +1,16 @@
 import THREE from 'three';
-window.THREE = THREE;
-import Cube from './objects/Cube';
+import './controls/ObjectTrackballControls';
+import WAGNER from '@superguigui/wagner';
+import VignettePass from '@superguigui/wagner/src/passes/vignette/VignettePass';
+import FXAAPass from '@superguigui/wagner/src/passes/fxaa/FXAAPass';
+import ChristmasBall from './objects/ChristmasBall';
 
 export default class Webgl {
   constructor(width, height) {
     this.params = {
       usePostprocessing: false,
+      useVignette: false,
+      useFxaa: false,
     };
 
     this.scene = new THREE.Scene();
@@ -15,20 +20,43 @@ export default class Webgl {
 
     this.renderer = new THREE.WebGLRenderer();
     this.renderer.setSize(width, height);
-    this.renderer.setClearColor(0x262626);
+    this.renderer.setClearColor(0xafafaf);
+    this.renderer.autoClearColor = true;
 
-    this.composer = null;
+    this.composer = new WAGNER.Composer(this.renderer);
     this.initPostprocessing();
 
-    this.cube = new Cube();
-    this.cube.position.set(0, 0, 0);
-    this.scene.add(this.cube);
+    this.initLights();
+
+    this.ball = new ChristmasBall();
+    this.ball.position.set(0, 0, 0);
+
+    this.controls = new THREE.ObjectTrackballControls(this.ball, this.camera, this.renderer.domElement);
+    this.controls.noZoom = true;
+    this.controls.dynamicObjectDampingFactor = 0.2;
+
+    this.scene.add(this.ball);
+  }
+
+  initLights() {
+    this.ambient = new THREE.AmbientLight( 0x999999 ); // soft white light
+    this.scene.add(this.ambient);
+
+    let lights = []
+    lights[0] = new THREE.SpotLight( 0x808080, 1.0 );
+    lights[0].position.set( 400, 750, 800 );
+    lights[0].castShadow = true;
+
+    this.scene.add(lights[0]);
+
   }
 
   initPostprocessing() {
-    if (!this.params.usePostprocessing) { return; }
+    this.fxaa = new FXAAPass();
 
-    /* Add the effect composer of your choice */
+    this.vignette = new VignettePass();
+    this.params.boost = 2;
+    this.params.reduction = 2;
   }
 
   resize(width, height) {
@@ -44,11 +72,16 @@ export default class Webgl {
 
   render() {
     if (this.params.usePostprocessing) {
-      console.warn('WebGL - No effect composer set.');
+      this.composer.reset();
+      this.composer.render(this.scene, this.camera);
+      if (this.params.useVignette) this.composer.pass(this.vignette);
+      if (this.params.useFxaa) this.composer.pass(this.fxaa);
+      this.composer.toScreen();
     } else {
       this.renderer.render(this.scene, this.camera);
     }
 
-    this.cube.update();
+    this.controls.update();
+    this.ball.update();
   }
 }
