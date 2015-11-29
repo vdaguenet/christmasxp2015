@@ -11,12 +11,16 @@ let gui;
 Mediator.once('preload:complete', main);
 
 PreloaderInterface.load([
-  { id: 'gift', src: 'assets/textures/gift.svg' },
-  { id: 'holy', src: 'assets/textures/holy.svg' },
-  { id: 'knot', src: 'assets/textures/knot.svg' },
-  { id: 'pin', src: 'assets/textures/pin.svg' },
-  { id: 'star', src: 'assets/textures/star.svg' },
-  { id: 'star-2', src: 'assets/textures/star-2.svg' }
+  { id: 'gift', src: 'assets/patterns/gift.svg' },
+  { id: 'holy', src: 'assets/patterns/holy.svg' },
+  { id: 'knot', src: 'assets/patterns/knot.svg' },
+  { id: 'pin', src: 'assets/patterns/pin.svg' },
+  { id: 'star', src: 'assets/patterns/star.svg' },
+  { id: 'star-2', src: 'assets/patterns/star-2.svg' }
+]);
+
+PreloaderInterface.loadTextures([
+  { id: 'mcap3', src: 'assets/textures/mcap3.png' }
 ]);
 
 function main() {

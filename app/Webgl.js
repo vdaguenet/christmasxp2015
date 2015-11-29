@@ -4,6 +4,7 @@ import WAGNER from '@superguigui/wagner';
 import VignettePass from '@superguigui/wagner/src/passes/vignette/VignettePass';
 import FXAAPass from '@superguigui/wagner/src/passes/fxaa/FXAAPass';
 import ChristmasBall from './objects/ChristmasBall';
+import Sky from './objects/Sky';
 
 export default class Webgl {
   constructor(width, height) {
@@ -16,11 +17,14 @@ export default class Webgl {
     this.scene = new THREE.Scene();
 
     this.camera = new THREE.PerspectiveCamera(50, width / height, 1, 1000);
-    this.camera.position.z = 100;
+    this.camera.position.z = 150;
 
-    this.renderer = new THREE.WebGLRenderer();
+    this.renderer = new THREE.WebGLRenderer({
+      antialias: true,
+      alpha: false
+    });
     this.renderer.setSize(width, height);
-    this.renderer.setClearColor(0xafafaf);
+    this.renderer.setClearColor(0xf8f9f3, 1.0);
     this.renderer.autoClearColor = true;
 
     this.composer = new WAGNER.Composer(this.renderer);
@@ -29,13 +33,12 @@ export default class Webgl {
     this.initLights();
 
     this.ball = new ChristmasBall();
-    this.ball.position.set(0, 0, 0);
+    this.scene.add(this.ball);
 
     this.controls = new THREE.ObjectTrackballControls(this.ball, this.camera, this.renderer.domElement);
     this.controls.noZoom = true;
     this.controls.dynamicObjectDampingFactor = 0.2;
 
-    this.scene.add(this.ball);
   }
 
   initLights() {
@@ -43,7 +46,7 @@ export default class Webgl {
     this.scene.add(this.ambient);
 
     let lights = []
-    lights[0] = new THREE.SpotLight( 0x808080, 1.0 );
+    lights[0] = new THREE.SpotLight( 0x808080, 0.25 );
     lights[0].position.set( 400, 750, 800 );
     lights[0].castShadow = true;
 

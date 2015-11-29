@@ -5,11 +5,10 @@ export default class ChristmasBall extends THREE.Object3D {
   constructor() {
     super();
 
-    this.color = '#ff0000';
+    this.color = '#7800ff';
     this.patternColor = '#e1ff00';
 
-    const geom = new THREE.SphereGeometry( 30, 64, 64 );
-    // const geom = new THREE.PlaneGeometry( 64, 64 );
+    //
 
     this.texture = null;
     this.textureCtx = null;
@@ -19,10 +18,31 @@ export default class ChristmasBall extends THREE.Object3D {
     this.initCanvas();
     this.texture.needsUpdate = true;
 
+    const shinyMap = PreloaderInterface.findTexture('mcap3');
+    shinyMap.mapping = THREE.SphericalReflectionMapping;
+
+    /* The cap */
+    const cylGeom = new THREE.CylinderGeometry( 5, 5, 10, 32 );
+    const torusGeom = new THREE.TorusGeometry( 3, 1, 16, 100 );
+    const capMat = new THREE.MeshBasicMaterial({
+      envMap: shinyMap
+    });
+    this.capCyl = new THREE.Mesh(cylGeom, capMat);
+    this.capCyl.position.set(0, 29, 0);
+    this.add(this.capCyl);
+    this.capTorus = new THREE.Mesh(torusGeom, capMat),
+    this.capTorus.position.set(0, 37, 0);
+    this.add(this.capTorus);
+
+    /* The ball */
+    const geom = new THREE.SphereGeometry( 30, 64, 64 );
     const mat = new THREE.MeshPhongMaterial({
       map: this.texture,
       wireframe: false,
-      shininess: 60
+      shininess: 40,
+      lightMap: shinyMap,
+      specularMap: shinyMap,
+      envMap: shinyMap
     });
 
     this.ball = new THREE.Mesh(geom, mat);
@@ -32,7 +52,7 @@ export default class ChristmasBall extends THREE.Object3D {
   }
 
   update() {
-    // this.ball.rotation.y += 0.01;
+    // this.rotation.y += 0.005;
   }
 
   drawPattern(id, position = 'top', width = 1.0) {
