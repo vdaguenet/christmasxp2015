@@ -5,12 +5,12 @@ export default class ChristmasBall extends THREE.Object3D {
   constructor() {
     super();
 
-    this.color = '#7800ff';
-    this.patternColor = '#e1ff00';
+    this.color = '#ff0000';
+    this.patternColor = '#ffffff';
 
-    this.patternTop = 'star-2';
-    this.patternCenter = 'pin';
-    this.patternBottom = 'star';
+    this.patternTop = null;
+    this.patternCenter = 'holy';
+    this.patternBottom = null;
 
     this.texture = null;
     this.textureCtx = null;
@@ -75,17 +75,27 @@ export default class ChristmasBall extends THREE.Object3D {
         break;
     }
 
+    this.patternCtx.clearRect(0, 0, this.textureWidth, this.textureHeight);
+    this.patternCtx.save();
+
     this.patternCtx.drawImage(this.colorizeImage(img), dx, dy, imgW, imgH);
+    this.patternCtx.restore();
+
     this.textureCtx.drawImage(this.canvasPattern, 0, 0, this.textureWidth, this.textureHeight);
+
   }
 
   drawTexture() {
+    this.textureCtx.clearRect(0, 0, this.textureWidth, this.textureHeight);
     this.textureCtx.save();
+
     this.textureCtx.fillStyle = this.color;
     this.textureCtx.fillRect(0, 0, this.textureWidth, this.textureHeight);
-    this.drawPattern(this.patternTop, 'top');
-    this.drawPattern(this.patternCenter, 'center');
-    this.drawPattern(this.patternBottom, 'bottom');
+
+    if (this.patternTop) this.drawPattern(this.patternTop, 'top');
+    if (this.patternCenter) this.drawPattern(this.patternCenter, 'center');
+    if (this.patternBottom)  this.drawPattern(this.patternBottom, 'bottom');
+
     this.textureCtx.restore();
   }
 
@@ -108,6 +118,24 @@ export default class ChristmasBall extends THREE.Object3D {
     this.texture.needsUpdate = true;
   }
 
+  changePatternTop(value) {
+    this.patternTop = value;
+    this.drawTexture();
+    this.texture.needsUpdate = true;
+  }
+
+  changePatternCenter(value) {
+    this.patternCenter = value;
+    this.drawTexture();
+    this.texture.needsUpdate = true;
+  }
+
+  changePatternBottom(value) {
+    this.patternBottom = value;
+    this.drawTexture();
+    this.texture.needsUpdate = true;
+  }
+
   changePatternColor(value) {
     this.patternColor = value;
     this.drawTexture();
@@ -119,6 +147,7 @@ export default class ChristmasBall extends THREE.Object3D {
     canvas.width = img.width;
     canvas.height = img.height;
     const ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.fillStyle = this.patternColor;
     ctx.globalCompositeOperation = 'destination-atop';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -172,9 +201,9 @@ export default class ChristmasBall extends THREE.Object3D {
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     ctx.restore();
 
-    this.drawPattern2d(ctx, PreloaderInterface.findImage(this.patternTop), 'top');
-    this.drawPattern2d(ctx, PreloaderInterface.findImage(this.patternCenter), 'center');
-    this.drawPattern2d(ctx, PreloaderInterface.findImage(this.patternBottom), 'bottom');
+    if (this.patternTop) this.drawPattern2d(ctx, PreloaderInterface.findImage(this.patternTop), 'top');
+    if (this.patternCenter) this.drawPattern2d(ctx, PreloaderInterface.findImage(this.patternCenter), 'center');
+    if (this.patternBottom) this.drawPattern2d(ctx, PreloaderInterface.findImage(this.patternBottom), 'bottom');
 
     return canvas;
   }

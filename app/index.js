@@ -37,17 +37,33 @@ function main() {
 
 function initGUI () {
   gui = new dat.GUI();
+  let gBulb = gui.addFolder('Bulb')
+  gBulb.addColor(webgl.ball, 'color').onChange(function(value) {
+    webgl.ball.changeColor(value);
+  });
+  gBulb.addColor(webgl.ball, 'patternColor').onChange(function(value) {
+    webgl.ball.changePatternColor(value);
+  });
+  gBulb.add(webgl.ball, 'patternTop',
+    ['none', 'gift', 'holy', 'knot', 'pin', 'star', 'star-2']).onChange(function(value) {
+    if (value === 'none') value = null;
+    webgl.ball.changePatternTop(value);
+  });
+  gBulb.add(webgl.ball, 'patternCenter',
+    ['none', 'gift', 'holy', 'knot', 'pin', 'star', 'star-2']).onChange(function(value) {
+    if (value === 'none') value = null;
+    webgl.ball.changePatternCenter(value);
+  });
+  gBulb.add(webgl.ball, 'patternBottom',
+    ['none', 'gift', 'holy', 'knot', 'pin', 'star', 'star-2']).onChange(function(value) {
+    if (value === 'none') value = null;
+    webgl.ball.changePatternBottom(value);
+  });
+  gBulb.add(webgl.ball, 'exportToImage');
   let gPost = gui.addFolder('Post processing')
   gPost.add(webgl.params, 'usePostprocessing');
   gPost.add(webgl.params, 'useVignette');
   gPost.add(webgl.params, 'useFxaa');
-  gui.addColor(webgl.ball, 'color').onChange(function(value) {
-    webgl.ball.changeColor(value);
-  });
-  gui.addColor(webgl.ball, 'patternColor').onChange(function(value) {
-    webgl.ball.changePatternColor(value);
-  });
-  gui.add(webgl.ball, 'exportToImage');
 }
 
 function resizeHandler() {
