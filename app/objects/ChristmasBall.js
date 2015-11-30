@@ -14,7 +14,7 @@ export default class ChristmasBall extends THREE.Object3D {
     this.patternColor = '#ffffff';
     this.availablePatternColors = ['#ffffff', '#FF9900', '#00A0B0', '#424242', '#a70006', '#437600', '#B5AFDD', '#F8CA00'];
 
-    this.availblePatterns = ['none', 'gift', 'holy', 'knot', 'pin', 'star', 'reindeer'];
+    this.availblePatterns = ['none', 'gift', 'holy', 'knot', 'pin', 'star', 'reindeer', 'snowflake'];
     this.patternTop = 'reindeer';
     this.patternCenter = 'knot';
     this.patternBottom = 'reindeer';
@@ -195,8 +195,8 @@ export default class ChristmasBall extends THREE.Object3D {
 
     switch(position) {
     case 'top':
-      dyRecto = rectoTop + 0.15 * circleDiameter - 0.5 * h;
-      dyVerso = versoTop + 0.15 * circleDiameter - 0.5 * h;
+      dyRecto = rectoTop + 0.2 * circleDiameter - 0.5 * h;
+      dyVerso = versoTop + 0.2 * circleDiameter - 0.5 * h;
       break;
     case 'center':
       dyRecto = rectoTop + circleRadius - 0.5 * h;

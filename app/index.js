@@ -18,12 +18,14 @@ PreloaderInterface.load([
   { id: 'pin', src: 'assets/patterns/pin.png' },
   { id: 'star', src: 'assets/patterns/star.png' },
   { id: 'reindeer', src: 'assets/patterns/reindeer.png' },
+  { id: 'snowflake', src: 'assets/patterns/snowflake.png' },
   { id: 'preview-gift', src: 'assets/previews/gift.png' },
   { id: 'preview-holy', src: 'assets/previews/holy.png' },
   { id: 'preview-knot', src: 'assets/previews/knot.png' },
   { id: 'preview-pin', src: 'assets/previews/pin.png' },
   { id: 'preview-star', src: 'assets/previews/star.png' },
   { id: 'preview-reindeer', src: 'assets/previews/reindeer.png' },
+  { id: 'preview-snowflake', src: 'assets/previews/snowflake.png' },
   { id: 'template', src: 'assets/print-template.png' }
 ]);
 PreloaderInterface.loadTextures([
