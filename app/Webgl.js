@@ -16,7 +16,7 @@ export default class Webgl {
     this.scene = new THREE.Scene();
 
     this.camera = new THREE.PerspectiveCamera(50, width / height, 1, 1000);
-    this.camera.position.z = 150;
+    this.camera.position.z = 130;
 
     this.renderer = new THREE.WebGLRenderer({
       antialias: true,
@@ -32,7 +32,7 @@ export default class Webgl {
     this.initLights();
 
     this.ball = new ChristmasBall();
-    this.ball.position.set(45, 0, 0);
+    this.ball.position.set(40, 0, 0);
     this.ball.rotation.y = Math.PI * -0.08;
     this.scene.add(this.ball);
 
