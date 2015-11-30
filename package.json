@@ -6,7 +6,7 @@
   "scripts": {
     "start": "npm run js:dev & npm run css:dev",
     "build": "npm run js:prod && npm run css:prod",
-    "js:dev": "budo app/index.js:build/main.js --dir ./public --live --open -- -t babelify -g glslify",
+    "js:dev": "budo app/index.js:build/main.js --dir ./public --open -- -t babelify -g glslify",
     "css:dev": "stylus -u autoprefixer-stylus -u ./node_modules/stylus-font-face --with {limit:80000} -w app/style/main.styl -o public/build --sourcemap",
     "js:prod": "browserify -t babelify -t stripify -g glslify app/index.js | uglifyjs -o public/build/main.js",
     "css:prod": "stylus -u autoprefixer-stylus -u ./node_modules/stylus-font-face --with {limit:80000} app/style/main.styl -o public/build --compress"

@@ -16,7 +16,8 @@
 .full-size-absolute,
 .full-size-relative,
 html,
-body {
+body,
+.loader {
   width: 100%;
   height: 100%;
 }
@@ -44,6 +45,8 @@ body {
 .font-test,
 .font-title,
 .button,
+.loader h1,
+.loader p,
 .title,
 .picker p {
   text-rendering: optimizeLegibility;
@@ -124,6 +127,7 @@ fieldset {
   font-style: 'normal';
 }
 .font-default,
+.loader p,
 .picker p {
   font-family: 'Dancing Script';
 }
@@ -133,13 +137,14 @@ fieldset {
   letter-spacing: 3px;
 }
 .font-title,
+.loader h1,
 .title {
   font-family: 'Alex Brush';
 }
 body {
   position: relative;
   margin: 0;
-  color: #f0f0d8;
+  color: #fff;
   overflow: hidden;
   background: url("../assets/backgrounds/bg-4.jpg");
   background-size: cover;
@@ -172,11 +177,13 @@ a {
   cursor: pointer;
   margin-right: 15px;
   border: 2px solid #f0f0d8;
-  opacity: 0.6;
+  opacity: 0.5;
   -webkit-transition: opacity 0.4s;
           transition: opacity 0.4s;
   overflow: hidden;
   cursor: pointer;
+  -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
 }
 .color-picker div:hover,
 .pattern-picker div:hover,
@@ -201,15 +208,59 @@ a {
   margin-top: 15%;
   color: #fff;
   position: relative;
+  cursor: pointer;
   display: inline-block;
   background-color: #437600;
   box-shadow: 0px 5px 0px 0px #2d5000;
+  -webkit-transition: background-color 0.4s;
+          transition: background-color 0.4s;
+}
+.button:hover {
+  background-color: #64b000;
 }
 .button:active {
   -webkit-transform: translate(0px, 5px);
       -ms-transform: translate(0px, 5px);
           transform: translate(0px, 5px);
   box-shadow: 0px 1px 0px 0px;
+}
+/*======================================================================
+    LOADER
+======================================================================*/
+.loader {
+  color: #fff;
+  background: #a70006;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 5;
+  text-align: center;
+  -webkit-transform-origin: left center;
+      -ms-transform-origin: left center;
+          transform-origin: left center;
+}
+.loader-content {
+  position: relative;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+      -ms-transform: translateY(-50%);
+          transform: translateY(-50%);
+}
+.loader h1 {
+  font-size: 5em;
+}
+.loader p {
+  font-size: 2em;
+}
+.loader #snowball {
+  width: 110px;
+  fill: #fff;
+  margin-top: 80px;
+  margin-bottom: 30px;
+}
+.loader #snowball circle {
+  position: relative;
+  opacity: 0;
 }
 /*======================================================================
     HOME
@@ -223,6 +274,7 @@ a {
   height: 100%;
   background: #a70006;
   box-shadow: 5px 0 15px #262626;
+  overflow: hidden;
 }
 .content-container {
   position: relative;
@@ -243,5 +295,28 @@ a {
 .picker p {
   font-size: 2.4em;
   margin-bottom: 15px;
+}
+/*======================================================================
+    MEDIA QUERIES
+======================================================================*/
+@media screen and (max-width: 1300px) {
+  .content-container {
+    top: 45%;
+  }
+  .picker {
+    margin-top: 8%;
+  }
+  .picker p {
+    font-size: 1.8em;
+  }
+  .color-picker div,
+  .pattern-picker div {
+    width: 30px;
+    height: 30px;
+  }
+  .button {
+    margin-top: 12%;
+    font-size: 1em;
+  }
 }
 /*# sourceMappingURL=main.css.map */

@@ -18,7 +18,8 @@ body
 body
   position relative
   margin 0
-  color #f0f0d8
+  color white
+  // color #f0f0d8
   overflow hidden
   background url('../assets/backgrounds/bg-4.jpg')
   background-size cover
@@ -50,10 +51,11 @@ a
     cursor pointer
     margin-right 15px
     border 2px solid #f0f0d8
-    opacity 0.6
+    opacity 0.5
     transition opacity 0.4s
     overflow hidden
     cursor pointer
+    backface-visibility hidden
 
     &:hover
     &.selected
@@ -76,14 +78,56 @@ a
   margin-top 15%
   color #fff
   position relative
+  cursor pointer
   display inline-block
   background-color #437600
   box-shadow 0px 5px 0px 0px #2d5000
+  transition background-color 0.4s
 
-.button:active
-  transform translate(0px, 5px)
-  box-shadow 0px 1px 0px 0px
+  &:hover
+    background-color #64b000
 
+  &:active
+    transform translate(0px, 5px)
+    box-shadow 0px 1px 0px 0px
+
+
+/*======================================================================
+    LOADER
+======================================================================*/
+.loader
+  @extends .full-size
+  color white
+  background #a70006
+  position absolute
+  top 0
+  left 0
+  z-index 5
+  text-align center
+  transform-origin left center
+
+  &-content
+    position relative
+    top 50%
+    transform translateY(-50%)
+
+  h1
+    @extends .font-title
+    font-size 5em
+
+  p
+    @extends .font-default
+    font-size 2em
+
+  #snowball
+    width 110px
+    fill white
+    margin-top 80px
+    margin-bottom 30px
+
+    circle
+      position relative
+      opacity 0
 
 /*======================================================================
     HOME
@@ -97,6 +141,7 @@ a
   height 100%
   background #a70006
   box-shadow 5px 0 15px #262626
+  overflow hidden
 
 .content-container
   position relative
@@ -104,11 +149,11 @@ a
   transform translateY(-50%)
 
 .title
+  @extends .font-title
   position absolute
   font-size 5em
   width 100%
   top 120px
-  @extends .font-title
 
 
 .picker
@@ -119,22 +164,25 @@ a
     font-size 2.4em
     margin-bottom 15px
 
-// .bulb-color
-//   left 15%
-//   top 35%
+/*======================================================================
+    MEDIA QUERIES
+======================================================================*/
++max-screen(1300px)
+  .content-container
+    top 45%
 
-// .pattern-color
-//   left 15%
-//   top 55%
+  .picker
+    margin-top 8%
 
-// .pattern-top
-//   right 15%
-//   top 27%
+    p
+      font-size 1.8em
 
-// .pattern-middle
-//   right 15%
-//   top 45%
+  .color-picker
+  .pattern-picker
+    div
+      width 30px
+      height 30px
 
-// .pattern-bottom
-//   right 15%
-//   top 62%
+  .button
+    margin-top 12%
+    font-size 1em
