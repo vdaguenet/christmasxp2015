@@ -43,77 +43,36 @@
       <link rel="stylesheet" href="./build/main.css">
   </head>
   <body>
-    <div class="webgl-container"></div>
-
     <div class="content">
-      <h1>Bulb builder</h1>
-      <h3>Color of the bulb</h3>
-      <ul class="color-picker" id="bulbColor">
-        <li data-color="#0000ff"></li>
-        <li data-color="#0000ff"></li>
-        <li data-color="#0000ff"></li>
-        <li data-color="#0000ff"></li>
-        <li data-color="#0000ff"></li>
-        <li data-color="#0000ff"></li>
-        <li data-color="#0000ff"></li>
-        <li data-color="#0000ff"></li>
-        <li data-color="#0000ff"></li>
-        <li data-color="#0000ff"></li>
-      </ul>
-      <h3>Color of the pattern</h3>
-      <ul class="color-picker" id="patternColor">
-        <li data-color="#0000ff"></li>
-        <li data-color="#0000ff"></li>
-        <li data-color="#0000ff"></li>
-        <li data-color="#0000ff"></li>
-        <li data-color="#0000ff"></li>
-        <li data-color="#0000ff"></li>
-        <li data-color="#0000ff"></li>
-        <li data-color="#0000ff"></li>
-        <li data-color="#0000ff"></li>
-        <li data-color="#0000ff"></li>
-      </ul>
-      <h3>Pattern on the top</h3>
-      <ul class="pattern-picker" id="topPattern">
-        <li data-pattern="star"></li>
-        <li data-pattern="star"></li>
-        <li data-pattern="star"></li>
-        <li data-pattern="star"></li>
-        <li data-pattern="star"></li>
-        <li data-pattern="star"></li>
-        <li data-pattern="star"></li>
-        <li data-pattern="star"></li>
-        <li data-pattern="star"></li>
-        <li data-pattern="star"></li>
-      </ul>
-      <h3>Pattern on the middle</h3>
-      <ul class="pattern-picker" id="centerPattern">
-        <li data-pattern="star"></li>
-        <li data-pattern="star"></li>
-        <li data-pattern="star"></li>
-        <li data-pattern="star"></li>
-        <li data-pattern="star"></li>
-        <li data-pattern="star"></li>
-        <li data-pattern="star"></li>
-        <li data-pattern="star"></li>
-        <li data-pattern="star"></li>
-        <li data-pattern="star"></li>
-      </ul>
-      <h3>Pattern on the bottom</h3>
-      <ul class="pattern-picker" id="bottomPattern">
-        <li data-pattern="star"></li>
-        <li data-pattern="star"></li>
-        <li data-pattern="star"></li>
-        <li data-pattern="star"></li>
-        <li data-pattern="star"></li>
-        <li data-pattern="star"></li>
-        <li data-pattern="star"></li>
-        <li data-pattern="star"></li>
-        <li data-pattern="star"></li>
-        <li data-pattern="star"></li>
-      </ul>
+      <div class="content-container">
+        <div class="picker bulb-color">
+          <p>Bulb color</p>
+          <div class="color-picker" id="bulbColor"></div>
+        </div>
 
-      <button id="export">Export</button>
+        <div class="picker pattern-color">
+          <p>Pattern color</p>
+          <div class="color-picker" id="patternColor"></div>
+        </div>
+
+        <div class="picker pattern-top">
+          <p>Top pattern</p>
+          <div class="pattern-picker" id="patternTop"></div>
+        </div>
+
+        <div class="picker pattern-middle">
+          <p>Middle pattern</p>
+          <div class="pattern-picker" id="patternMiddle"></div>
+        </div>
+
+        <div class="picker pattern-bottom">
+          <p>Bottom pattern</p>
+          <div class="pattern-picker" id="patternBottom"></div>
+        </div>
+
+        <!-- <a id="reset" class="button">Reset</a> -->
+        <a id="export" class="button">Print</a>
+      </div>
     </div>
 
     <script src="./build/main.js"></script>

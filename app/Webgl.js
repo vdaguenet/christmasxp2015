@@ -20,10 +20,10 @@ export default class Webgl {
 
     this.renderer = new THREE.WebGLRenderer({
       antialias: true,
-      alpha: false
+      alpha: true
     });
     this.renderer.setSize(width, height);
-    this.renderer.setClearColor(0xf8f9f3, 1.0);
+    this.renderer.setClearColor(0xf8f9f3, 0.0);
     this.renderer.autoClearColor = true;
 
     this.composer = new WAGNER.Composer(this.renderer);
@@ -32,6 +32,8 @@ export default class Webgl {
     this.initLights();
 
     this.ball = new ChristmasBall();
+    this.ball.position.set(45, 0, 0);
+    this.ball.rotation.y = Math.PI * -0.08;
     this.scene.add(this.ball);
 
     this.controls = new THREE.ObjectTrackballControls(this.ball, this.camera, this.renderer.domElement);

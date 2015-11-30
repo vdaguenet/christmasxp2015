@@ -9,7 +9,7 @@
     BASE
 ======================================================================*/
 reset()
-// @import 'config/*'
+@import 'config/*'
 
 html,
 body
@@ -18,8 +18,12 @@ body
 body
   position relative
   margin 0
-  color black
+  color #f0f0d8
   overflow hidden
+  background url('../assets/backgrounds/bg-4.jpg')
+  background-size cover
+  background-position 50% 50%
+  background-repeat no-repeat
 
 #symbols
   display none
@@ -33,24 +37,104 @@ a
 /*======================================================================
     COMPONENTS
 ======================================================================*/
+.color-picker
+.pattern-picker
+  position relative
+
+  div
+    position relative
+    display inline-block
+    width 40px
+    height 40px
+    border-radius 50%
+    cursor pointer
+    margin-right 15px
+    border 2px solid #f0f0d8
+    opacity 0.6
+    transition opacity 0.4s
+    overflow hidden
+    cursor pointer
+
+    &:hover
+    &.selected
+      opacity 1
+
+    img
+      cursor pointer
+      width 90%
+
+.pattern-picker div
+  background-color #888
+
+.button
+  @extends .font-test
+  font-weight 900
+  border-radius 5px
+  padding 17px 28px
+  font-size 1.3em
+  text-decoration none
+  margin-top 15%
+  color #fff
+  position relative
+  display inline-block
+  background-color #437600
+  box-shadow 0px 5px 0px 0px #2d5000
+
+.button:active
+  transform translate(0px, 5px)
+  box-shadow 0px 1px 0px 0px
+
+
+/*======================================================================
+    HOME
+======================================================================*/
 .content
+  text-align center
   position absolute
   top 0
-  right 0
+  left 0
+  width 32%
   height 100%
-  width 40%
-  background white
+  background #a70006
+  box-shadow 5px 0 15px #262626
 
-.color-picker
-  li
-    display inline-block
-    width 25px
-    height 25px
-    background blue
+.content-container
+  position relative
+  top 42%
+  transform translateY(-50%)
 
-.pattern-picker
-  li
-    display inline-block
-    width 35px
-    height 35px
-    background yellow
+.title
+  position absolute
+  font-size 5em
+  width 100%
+  top 120px
+  @extends .font-title
+
+
+.picker
+  margin-top 8%
+
+  p
+    @extends .font-default
+    font-size 2.4em
+    margin-bottom 15px
+
+// .bulb-color
+//   left 15%
+//   top 35%
+
+// .pattern-color
+//   left 15%
+//   top 55%
+
+// .pattern-top
+//   right 15%
+//   top 27%
+
+// .pattern-middle
+//   right 15%
+//   top 45%
+
+// .pattern-bottom
+//   right 15%
+//   top 62%

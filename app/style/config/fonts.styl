@@ -1,0 +1,19 @@
+@import 'font-face'
+
+font-face('Dancing Script', 'dancingscript', '../assets/fonts/dancingscript')
+font-face('Great Vibes', 'greatvibes', '../assets/fonts/greatvibes')
+font-face('Alex Brush', 'alexbrush', '../assets/fonts/alexbrush')
+font-face('Moon', 'moon_light', '../assets/fonts/moon')
+
+.font-default
+  font-family 'Dancing Script'
+  @extends .smooth-font
+
+.font-test
+  font-family 'Moon'
+  letter-spacing 3px
+  @extends .smooth-font
+
+.font-title
+  font-family 'Alex Brush'
+  @extends .smooth-font

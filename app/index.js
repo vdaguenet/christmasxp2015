@@ -2,13 +2,11 @@ import Webgl from './Webgl';
 import Mediator from './lib/Mediator';
 import PreloaderInterface from './lib/PreloaderInterface';
 import raf from 'raf';
-import dat from 'dat-gui';
 import 'gsap';
+import ColorPicker from './components/ColorPicker';
+import PatternPicker from './components/PatternPicker';
 
 let webgl;
-let gui;
-
-const debug = true;
 
 Mediator.once('preload:complete', main);
 
@@ -18,7 +16,13 @@ PreloaderInterface.load([
   { id: 'knot', src: 'assets/patterns/knot.png' },
   { id: 'pin', src: 'assets/patterns/pin.png' },
   { id: 'star', src: 'assets/patterns/star.png' },
-  { id: 'star-2', src: 'assets/patterns/star-2.png' },
+  { id: 'reindeer', src: 'assets/patterns/reindeer.png' },
+  { id: 'preview-gift', src: 'assets/previews/gift.png' },
+  { id: 'preview-holy', src: 'assets/previews/holy.png' },
+  { id: 'preview-knot', src: 'assets/previews/knot.png' },
+  { id: 'preview-pin', src: 'assets/previews/pin.png' },
+  { id: 'preview-star', src: 'assets/previews/star.png' },
+  { id: 'preview-reindeer', src: 'assets/previews/reindeer.png' },
   { id: 'template', src: 'assets/print-template.png' }
 ]);
 
@@ -26,75 +30,16 @@ PreloaderInterface.loadTextures([
   { id: 'mcap3', src: 'assets/textures/mcap3.png' }
 ]);
 
-function main() {
-  webgl = new Webgl(window.innerWidth, window.innerHeight);
-  document.body.appendChild(webgl.renderer.domElement);
-  // events
-  bindEvents();
-  // gui
-  if (debug) initGUI();
-  // handle resize
-  window.addEventListener('resize', resizeHandler);
-  // let's play !
-  animate();
-}
-
 function bindEvents() {
-  document.querySelector('#bulbColor').addEventListener('click', function(e) {
-    if (!e.target.hasAttribute('data-color')) return;
-    webgl.ball.changeColor(e.target.getAttribute('data-color'));
-  });
-  document.querySelector('#patternColor').addEventListener('click', function(e) {
-    if (!e.target.hasAttribute('data-color')) return;
-    webgl.ball.changePatternColor(e.target.getAttribute('data-color'));
-  });
-  document.querySelector('#topPattern').addEventListener('click', function(e) {
-    if (!e.target.hasAttribute('data-pattern')) return;
-    webgl.ball.changePatternTop(e.target.getAttribute('data-pattern'));
-  });
-  document.querySelector('#centerPattern').addEventListener('click', function(e) {
-    if (!e.target.hasAttribute('data-pattern')) return;
-    webgl.ball.changePatternCenter(e.target.getAttribute('data-pattern'));
-  });
-  document.querySelector('#bottomPattern').addEventListener('click', function(e) {
-    if (!e.target.hasAttribute('data-pattern')) return;
-    webgl.ball.changePatternBottom(e.target.getAttribute('data-pattern'));
-  });
+  const bulbColorPick = new ColorPicker(document.querySelector('#bulbColor'), 'bulb', webgl.ball.availableColors, webgl.ball.color);
+  const patternColorPick = new ColorPicker(document.querySelector('#patternColor'), 'pattern', webgl.ball.availablePatternColors, webgl.ball.patternColor);
+  const patternTopPicker = new PatternPicker(document.querySelector('#patternTop'), 'top', webgl.ball.availblePatterns, webgl.ball.patternTop);
+  const patternMiddlePicker = new PatternPicker(document.querySelector('#patternMiddle'), 'middle', webgl.ball.availblePatterns, webgl.ball.patternCenter);
+  const patternBottomPicker = new PatternPicker(document.querySelector('#patternBottom'), 'bottom', webgl.ball.availblePatterns, webgl.ball.patternBottom);
+
   document.querySelector('#export').addEventListener('click', function() {
     webgl.ball.exportToImage();
   });
-}
-
-function initGUI () {
-  gui = new dat.GUI();
-  let gBulb = gui.addFolder('Bulb')
-  gBulb.addColor(webgl.ball, 'color').onChange(function(value) {
-    webgl.ball.changeColor(value);
-  });
-  gBulb.addColor(webgl.ball, 'patternColor').onChange(function(value) {
-    webgl.ball.changePatternColor(value);
-  });
-  gBulb.add(webgl.ball, 'patternTop',
-    ['none', 'gift', 'holy', 'knot', 'pin', 'star', 'star-2']).onChange(function(value) {
-    if (value === 'none') value = null;
-    webgl.ball.changePatternTop(value);
-  });
-  gBulb.add(webgl.ball, 'patternCenter',
-    ['none', 'gift', 'holy', 'knot', 'pin', 'star', 'star-2']).onChange(function(value) {
-    if (value === 'none') value = null;
-    webgl.ball.changePatternCenter(value);
-  });
-  gBulb.add(webgl.ball, 'patternBottom',
-    ['none', 'gift', 'holy', 'knot', 'pin', 'star', 'star-2']).onChange(function(value) {
-    if (value === 'none') value = null;
-    webgl.ball.changePatternBottom(value);
-  });
-  gBulb.add(webgl.ball, 'exportToImage');
-  let gPost = gui.addFolder('Post processing')
-  gPost.add(webgl.params, 'usePostprocessing');
-  gPost.add(webgl.params, 'useVignette');
-  gPost.add(webgl.params, 'useFxaa');
-  gui.close();
 }
 
 function resizeHandler() {
@@ -105,4 +50,15 @@ function animate() {
   raf(animate);
 
   webgl.render();
+}
+
+function main() {
+  webgl = new Webgl(window.innerWidth, window.innerHeight);
+  document.body.appendChild(webgl.renderer.domElement);
+  // events
+  bindEvents();
+  // handle resize
+  window.addEventListener('resize', resizeHandler);
+  // let's play !
+  animate();
 }

@@ -1,16 +1,23 @@
 import THREE from 'three';
 import PreloaderInterface from '../lib/PreloaderInterface';
+import Mediator from '../lib/Mediator';
+import bindAll from 'lodash.bindAll';
 
 export default class ChristmasBall extends THREE.Object3D {
   constructor() {
     super();
 
-    this.color = '#ff0000';
-    this.patternColor = '#ffffff';
+    bindAll(this, 'changeColor', 'changePatternColor', 'changePatternTop', 'changePatternCenter', 'changePatternBottom');
 
-    this.patternTop = null;
-    this.patternCenter = 'holy';
-    this.patternBottom = null;
+    this.color = '#a70006';
+    this.availableColors = ['#ffffff', '#FF9900', '#00A0B0', '#424242', '#a70006', '#437600', '#B5AFDD', '#F8CA00'];
+    this.patternColor = '#ffffff';
+    this.availablePatternColors = ['#ffffff', '#FF9900', '#00A0B0', '#424242', '#a70006', '#437600', '#B5AFDD', '#F8CA00'];
+
+    this.availblePatterns = ['none', 'gift', 'holy', 'knot', 'pin', 'star', 'reindeer'];
+    this.patternTop = 'reindeer';
+    this.patternCenter = 'knot';
+    this.patternBottom = 'reindeer';
 
     this.texture = null;
     this.textureCtx = null;
@@ -27,20 +34,20 @@ export default class ChristmasBall extends THREE.Object3D {
     shinyMap.mapping = THREE.SphericalReflectionMapping;
 
     /* The cap */
-    const cylGeom = new THREE.CylinderGeometry( 5, 5, 10, 32 );
-    const torusGeom = new THREE.TorusGeometry( 3, 1, 16, 100 );
+    const cylGeom = new THREE.CylinderGeometry(5, 5, 10, 32);
+    const torusGeom = new THREE.TorusGeometry(3, 1, 16, 100);
     const capMat = new THREE.MeshBasicMaterial({
       envMap: shinyMap
     });
     this.capCyl = new THREE.Mesh(cylGeom, capMat);
     this.capCyl.position.set(0, 29, 0);
     this.add(this.capCyl);
-    this.capTorus = new THREE.Mesh(torusGeom, capMat),
+    this.capTorus = new THREE.Mesh(torusGeom, capMat);
     this.capTorus.position.set(0, 37, 0);
     this.add(this.capTorus);
 
     /* The ball */
-    const geom = new THREE.SphereGeometry( 30, 64, 64 );
+    const geom = new THREE.SphereGeometry(30, 64, 64);
     const mat = new THREE.MeshPhongMaterial({
       map: this.texture,
       wireframe: false,
@@ -54,6 +61,12 @@ export default class ChristmasBall extends THREE.Object3D {
     this.ball.rotation.y = -0.5 * Math.PI;
 
     this.add(this.ball);
+
+    Mediator.on('picker:bulb:change', this.changeColor);
+    Mediator.on('picker:pattern:change', this.changePatternColor);
+    Mediator.on('picker:top:change', this.changePatternTop);
+    Mediator.on('picker:middle:change', this.changePatternCenter);
+    Mediator.on('picker:bottom:change', this.changePatternBottom);
   }
 
   drawPattern(id, position = 'top', width = 1.0) {
@@ -64,15 +77,15 @@ export default class ChristmasBall extends THREE.Object3D {
     const dx = 0.5 * this.textureWidth - 0.5 * imgW;
     let dy;
     switch(position) {
-      case 'top':
-        dy = 0.25 * this.textureHeight - 0.5 * imgH;
-        break;
-      case 'center':
-        dy = 0.5 * this.textureHeight - 0.5 * imgH;
-        break;
-      case 'bottom':
-        dy = 0.75 * this.textureHeight - 0.5 * imgH;
-        break;
+    case 'top':
+      dy = 0.25 * this.textureHeight - 0.5 * imgH;
+      break;
+    case 'center':
+      dy = 0.5 * this.textureHeight - 0.5 * imgH;
+      break;
+    case 'bottom':
+      dy = 0.75 * this.textureHeight - 0.5 * imgH;
+      break;
     }
 
     this.patternCtx.clearRect(0, 0, this.textureWidth, this.textureHeight);
@@ -119,18 +132,24 @@ export default class ChristmasBall extends THREE.Object3D {
   }
 
   changePatternTop(value) {
+    if (value === 'none') value = null;
+
     this.patternTop = value;
     this.drawTexture();
     this.texture.needsUpdate = true;
   }
 
   changePatternCenter(value) {
+    if (value === 'none') value = null;
+
     this.patternCenter = value;
     this.drawTexture();
     this.texture.needsUpdate = true;
   }
 
   changePatternBottom(value) {
+    if (value === 'none') value = null;
+
     this.patternBottom = value;
     this.drawTexture();
     this.texture.needsUpdate = true;
@@ -171,21 +190,22 @@ export default class ChristmasBall extends THREE.Object3D {
     const dxRecto = rectoLeft + circleRadius - 0.5 * w;
     const dxVerso = versoLeft + circleRadius - 0.5 * w;
 
-    let dyRecto, dyVerso;
+    let dyRecto
+    let dyVerso;
 
     switch(position) {
-      case 'top':
-        dyRecto = rectoTop + 0.15 * circleDiameter - 0.5 * h;
-        dyVerso = versoTop + 0.15 * circleDiameter - 0.5 * h;
-        break;
-      case 'center':
-        dyRecto = rectoTop + circleRadius - 0.5 * h;
-        dyVerso = versoTop + circleRadius - 0.5 * h;
-        break;
-      case 'bottom':
-        dyRecto = rectoTop + 0.8 * circleDiameter - 0.5 * h;
-        dyVerso = versoTop + 0.8 * circleDiameter - 0.5 * h;
-        break;
+    case 'top':
+      dyRecto = rectoTop + 0.15 * circleDiameter - 0.5 * h;
+      dyVerso = versoTop + 0.15 * circleDiameter - 0.5 * h;
+      break;
+    case 'center':
+      dyRecto = rectoTop + circleRadius - 0.5 * h;
+      dyVerso = versoTop + circleRadius - 0.5 * h;
+      break;
+    case 'bottom':
+      dyRecto = rectoTop + 0.8 * circleDiameter - 0.5 * h;
+      dyVerso = versoTop + 0.8 * circleDiameter - 0.5 * h;
+      break;
     }
 
     ctx.drawImage(imgColorized, dxRecto, dyRecto, w, h);
