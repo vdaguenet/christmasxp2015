@@ -1,6 +1,6 @@
 .DS_Store
-build/*.js
-build/*.css
-build/*.map
+public/build/*.js
+public/build/*.css
+public/build/*.map
 node_modules
 *.log
