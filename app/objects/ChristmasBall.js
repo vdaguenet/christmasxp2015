@@ -129,6 +129,11 @@ export default class ChristmasBall extends THREE.Object3D {
     this.color = value;
     this.drawTexture();
     this.texture.needsUpdate = true;
+    this.transitionChange();
+  }
+
+  transitionChange() {
+    TweenMax.fromTo(this.rotation, 1.8, { y: this.rotation.y }, { y: this.rotation.y + 2 * Math.PI, ease: Expo.easeOut });
   }
 
   changePatternTop(value) {
@@ -137,6 +142,7 @@ export default class ChristmasBall extends THREE.Object3D {
     this.patternTop = value;
     this.drawTexture();
     this.texture.needsUpdate = true;
+    this.transitionChange();
   }
 
   changePatternCenter(value) {
@@ -145,6 +151,7 @@ export default class ChristmasBall extends THREE.Object3D {
     this.patternCenter = value;
     this.drawTexture();
     this.texture.needsUpdate = true;
+    this.transitionChange();
   }
 
   changePatternBottom(value) {
@@ -153,12 +160,14 @@ export default class ChristmasBall extends THREE.Object3D {
     this.patternBottom = value;
     this.drawTexture();
     this.texture.needsUpdate = true;
+    this.transitionChange();
   }
 
   changePatternColor(value) {
     this.patternColor = value;
     this.drawTexture();
     this.texture.needsUpdate = true;
+    this.transitionChange();
   }
 
   colorizeImage(img) {

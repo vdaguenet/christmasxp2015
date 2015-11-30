@@ -57,9 +57,27 @@ a
     cursor pointer
     backface-visibility hidden
 
+    &:after
+      content ''
+      position absolute
+      top 45%
+      left 0
+      width 200%
+      height 8px
+      display block
+      background white
+      opacity 0.8
+      transform translateY(-50%) translateX(-100%) rotate(-45deg)
+      transition transform 0.5s
+
     &:hover
     &.selected
       opacity 1
+    &:hover:after
+      transform translateY(-50%) translateX(100%) rotate(-45deg)
+
+    &.selected:after
+      display none
 
     img
       cursor pointer
